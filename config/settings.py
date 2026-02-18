@@ -110,6 +110,8 @@ ADDITIONAL_APPS = [
 
 LOCAL_APPS = [
     "users",
+    "employee",
+    "retail"
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + ADDITIONAL_APPS + LOCAL_APPS
