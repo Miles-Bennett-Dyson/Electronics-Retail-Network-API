@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from users.models import User
+from employees.models import Employee
 
 
 class Command(BaseCommand):
@@ -8,12 +8,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            user = User.objects.create(email='super@user.com')
-            user.is_staff = True
-            user.is_active = True
-            user.is_superuser = True
-            user.set_password('admin')
-            user.save()
+            employee = Employee.objects.create(email='super@user.com')
+            employee.is_staff = True
+            employee.is_active = True
+            employee.is_superuser = True
+            employee.set_password('admin')
+            employee.save()
             self.stdout.write(self.style.SUCCESS('Супер-пользователь создан. \n email = super@user.com \n password =  admin '))
         except Exception as e:
             self.stdout.write(
