@@ -51,3 +51,12 @@ class EmployeeAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = ('last_login', 'date_joined',)
+
+    def save_model(self, request, obj, form, change):
+
+        if obj.password:
+            print(obj.password)
+            if not obj.password.startswith('pbkdf2_'):
+                obj.set_password(obj.password)
+
+        super().save_model(request, obj, form, change)
