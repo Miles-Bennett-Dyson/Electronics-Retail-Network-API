@@ -35,7 +35,7 @@ class RetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Retail
-        read_only_fields =["debt",]
+        read_only_fields = ["debt", ]
         fields = "__all__"
 
 

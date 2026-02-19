@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.core.exceptions import ValidationError
 from django.db import models
+
 
 class Product(models.Model):
     """ Модель для товаров. """

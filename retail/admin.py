@@ -4,6 +4,7 @@ from django.utils.html import format_html
 
 from retail.models import Retail, Product
 
+
 @admin.register(Retail)
 class RetailAdmin(admin.ModelAdmin):
     list_display = (
@@ -40,4 +41,3 @@ class RetailAdmin(admin.ModelAdmin):
         'model',
         'release_date',
     )
-
