@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -9,6 +10,11 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.model})"
+
+    class Meta:
+        verbose_name = "Товар"
+        verbose_name_plural = "Товары"
+
 
 class Retail(models.Model):
     """ Модель звена сети. """
@@ -39,6 +45,7 @@ class Retail(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
 
+    @admin.display(description='Уровень иерархии в цепочке')
     def get_level(self):
         """ Метод для вычисления уровня иерархии. """
         level = 0
