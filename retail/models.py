@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class Product(models.Model):
@@ -54,6 +55,17 @@ class Retail(models.Model):
             level += 1
             current_node = current_node.supplier
         return level
+
+    def clean(self):
+        list_suppliers = []
+        current_node = self.supplier
+        while current_node:
+            print(current_node)
+            if current_node.pk in list_suppliers or current_node.pk == self.pk:
+                raise ValidationError('Циклическая иерархия')
+            list_suppliers.append(current_node.pk)
+            current_node = current_node.supplier
+        super().clean()
 
     def __str__(self):
         return self.name
