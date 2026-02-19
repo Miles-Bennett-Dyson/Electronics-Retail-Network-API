@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 class Product(models.Model):
@@ -37,6 +38,15 @@ class Retail(models.Model):
     )
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
+
+    def get_level(self):
+        """ Метод для вычисления уровня иерархии. """
+        level = 0
+        current_node = self
+        while current_node.supplier:
+            level += 1
+            current_node = current_node.supplier
+        return level
 
     def __str__(self):
         return self.name
