@@ -75,7 +75,7 @@ USE_TZ = True
 #     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 # }
 
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "employees.Employee"
 
 # LOGIN_URL = reverse_lazy("users:request_sms")
 
@@ -110,9 +110,8 @@ ADDITIONAL_APPS = [
 ]
 
 LOCAL_APPS = [
-    "users",
-    "employee",
-    "retail"
+    "retail",
+    "employees"
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + ADDITIONAL_APPS + LOCAL_APPS

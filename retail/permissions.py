@@ -9,5 +9,4 @@ class IsActiveEmployee(BasePermission):
             request.user
             and request.user.is_authenticated
             and request.user.is_active
-            and hasattr(request.user, 'employee_profile')
         )
