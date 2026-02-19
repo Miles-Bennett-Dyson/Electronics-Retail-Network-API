@@ -2,7 +2,7 @@ from rest_framework.permissions import BasePermission
 
 
 class IsActiveEmployee(BasePermission):
-    """ Проверяет, является ли сотрудник активным. """
+    """ Проверяет, является ли user активным сотрудником. """
 
     def has_permission(self, request, view):
         return bool(
