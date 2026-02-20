@@ -37,7 +37,9 @@ class RetailSerializer(serializers.ModelSerializer):
         model = Retail
         read_only_fields = ["debt", ]
         fields = "__all__"
-
+        extra_kwargs = {
+            'products': {'required': False},
+        }
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:

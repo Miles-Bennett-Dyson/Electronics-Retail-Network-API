@@ -26,7 +26,7 @@ class Retail(models.Model):
     street = models.CharField(max_length=100, verbose_name="Улица")
     house_number = models.CharField(max_length=20, verbose_name="Номер дома")
 
-    products = models.ManyToManyField(Product, verbose_name="Продукты")
+    products = models.ManyToManyField(Product, verbose_name="Продукты", blank=True)
 
     supplier = models.ForeignKey(
         'self',
