@@ -1,8 +1,10 @@
+from django.contrib import admin
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 from employees.models import Employee
+from retail.admin import RetailAdmin
 from retail.models import Retail, Product
 
 
@@ -141,6 +143,22 @@ class RetailCRUDTestCase(APITestCase):
         response = self.client.patch(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Retail.objects.get(pk=self.retail.pk).debt, 0.00)
+
+    def test_debt_reset_via_admin_panel(self):
+        """Тест удаления задолженности через админ панель. """
+        url = reverse(viewname="retail:retail-detail", args=(self.retail.pk,))
+        self.retail.debt = 1000
+        self.retail.save()
+        self.retail_2.debt = 2000
+        self.retail_2.save()
+        qs = Retail.objects.filter(pk=1)
+        admin_obj = RetailAdmin(model=Retail, admin_site=admin.site)
+        admin_obj.message_user = lambda request, message: None
+        admin_obj.debt_reset(request=None, queryset=qs)
+        self.retail.refresh_from_db()
+        self.retail_2.refresh_from_db()
+        self.assertEqual(self.retail.debt, 0)
+        self.assertEqual(self.retail_2.debt, 2000)
 
     def test_retail_active_employee(self):
         """Тест доступа к API только активным сотрудникам. """

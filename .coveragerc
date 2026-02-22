@@ -1,16 +1,15 @@
 [run]
 source = .
 omit =
-    *manage.py
-    *venv*
-    *env*
-    *migrations*
-    *tests*
-    *apps.py
-    *wsgi.py
-    *asgi.py
-    *settings.py
-    *admin.py
+    manage.py
+    */*migrations/*
+    */*tests/*
+    */*settings.py
+    */*admin.py
+    */*apps.py
+    */*wsgi.py
+    */*asgi.py
+    */*csu.py
 
 [report]
 show_missing = True

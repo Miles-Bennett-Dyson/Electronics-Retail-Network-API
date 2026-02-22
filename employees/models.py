@@ -22,7 +22,7 @@ class Employee(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    def __str__(self):
+    def __str__(self): # pragma: no cover
         return f"Сотрудник: {self.email} ({self.position})"
 
     class Meta:

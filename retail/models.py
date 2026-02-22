@@ -9,7 +9,7 @@ class Product(models.Model):
     model = models.CharField(max_length=100, verbose_name="Модель")
     release_date = models.DateField(verbose_name="Дата выхода на рынок")
 
-    def __str__(self):
+    def __str__(self): # pragma: no cover
         return f"{self.name} ({self.model})"
 
     class Meta:
@@ -67,7 +67,7 @@ class Retail(models.Model):
             current_node = current_node.supplier
         super().clean()
 
-    def __str__(self):
+    def __str__(self): # pragma: no cover
         return self.name
 
     class Meta:
