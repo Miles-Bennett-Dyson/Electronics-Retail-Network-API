@@ -15,7 +15,6 @@ class RetailCRUDTestCase(APITestCase):
             position="Разработчик",
             department="ИТ",
             hire_date="2026-01-01"
-
         )
         self.product = Product.objects.create(
             name="Смартфон",
@@ -95,3 +94,10 @@ class RetailCRUDTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Retail.objects.get(pk=self.retail.pk).debt, 0.00)
 
+    def test_retail_active_employee(self):
+        """Тест доступа к API только активным сотрудникам. """
+        self.user.is_active = False
+        self.user.save()
+        url = reverse(viewname="retail:retail-list")
+        response = self.client.get(url, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
