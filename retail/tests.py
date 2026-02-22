@@ -29,7 +29,16 @@ class RetailCRUDTestCase(APITestCase):
             street="Уличная",
             house_number="1",
         )
+        self.retail_2 = Retail.objects.create(
+            name="TOSHIBA",
+            email="email@email.com",
+            country="Япония",
+            city="Токио",
+            street="Уличная",
+            house_number="1",
+        )
         self.retail.products.add(self.product)
+        self.retail_2.products.add(self.product)
         self.client.force_authenticate(user=self.user)
 
     def test_retail_create(self):
@@ -47,7 +56,7 @@ class RetailCRUDTestCase(APITestCase):
         self.retail.products.add(self.product)
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Retail.objects.all().count(), 2)
+        self.assertEqual(Retail.objects.all().count(), 3)
 
     def test_retail_edit(self):
         """Тест изменения поставщика"""
@@ -59,26 +68,41 @@ class RetailCRUDTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Retail.objects.get(pk=self.retail.pk).name, "Apple")
 
+    def test_self_identification_supplier(self):
+        """Тест указания поставщиком самого себя """
+        url = reverse(viewname="retail:retail-detail", args=(self.retail.pk,))
+        data = {
+            "supplier": self.retail.pk,
+        }
+        response = self.client.patch(url, data, format="json")
+        self.retail.refresh_from_db()
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('Нельзя себя же, указывать поставщиком!', response.data['non_field_errors'])
+        self.assertEqual(self.retail.supplier, None)
+
+    def test_supplier_correctness(self):
+        """Тест правильного указания поставщика. """
+        url = reverse(viewname="retail:retail-detail", args=(self.retail.pk,))
+        data = {
+            "supplier": self.retail_2.pk,
+        }
+        response = self.client.patch(url, data, format="json")
+        self.retail.refresh_from_db()
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(self.retail.supplier, self.retail_2)
+
     def test_retail_delete(self):
         """Тест удаления поставщика"""
         url = reverse(viewname="retail:retail-detail", args=(self.retail.pk,))
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Retail.objects.all().count(), 0)
+        self.assertEqual(Retail.objects.all().count(), 1)
 
     def test_retail_filter(self):
         """Тест фильтра поставщика по стране. """
 
         url = reverse(viewname="retail:retail-list")
-        self.retail = Retail.objects.create(
-            name="Samsung",
-            email="email@email.com",
-            country="Корея",
-            city="Пхеньян",
-            street="Уличная",
-            house_number="1",
-        )
-        response = self.client.get(url, data={'country': 'Корея'}, format="json")
+        response = self.client.get(url, data={'country': 'Япония'}, format="json")
         result = response.json()[0].get("id")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Retail.objects.all().count(), 2)
@@ -88,14 +112,6 @@ class RetailCRUDTestCase(APITestCase):
         """Тест фильтра поставщика по несуществующей стране. """
 
         url = reverse(viewname="retail:retail-list")
-        self.retail = Retail.objects.create(
-            name="Samsung",
-            email="email@email.com",
-            country="Корея",
-            city="Пхеньян",
-            street="Уличная",
-            house_number="1",
-        )
         response = self.client.get(url, data={'country': 'Венера'}, format="json")
         result = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)

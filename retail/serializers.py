@@ -22,7 +22,7 @@ class RetailSerializer(serializers.ModelSerializer):
             supplier = attrs.get("supplier")
             if supplier:
                 if supplier.pk == self.instance.pk:
-                    raise ValidationError('Нельзя себя указывать поставщиком')
+                    raise ValidationError('Нельзя себя же, указывать поставщиком!')
                 list_suppliers = []
                 current_node = supplier
                 while current_node:
