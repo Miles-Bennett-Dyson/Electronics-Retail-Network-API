@@ -1,5 +1,6 @@
 import os
 import sys
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -68,26 +69,25 @@ USE_I18N = True
 
 USE_TZ = True
 
-# SIMPLE_JWT = {
-#     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
-#     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-# }
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
 
 AUTH_USER_MODEL = "employees.Employee"
 
-# LOGIN_URL = reverse_lazy("users:request_sms")
 
-# SWAGGER_SETTINGS = {
-#     'SECURITY_DEFINITIONS': {
-#         'Bearer': {
-#             'type': 'apiKey',
-#             'name': 'Authorization',
-#             'in': 'header',
-#             'description': 'Введите в поле: Bearer [ваш_токен]'
-#         }
-#     },
-#     'USE_SESSION_AUTH': False,  # Отключаем стандартную сессионную авторизацию для чистоты
-# }
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Введите в поле: Bearer [ваш_токен]'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+}
 
 #          *- INSTALLED APPS -*
 

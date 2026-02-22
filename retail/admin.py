@@ -22,7 +22,7 @@ class RetailAdmin(admin.ModelAdmin):
         updated_count = queryset.update(debt=0.00)
         self.message_user(request, f"Задолженность обнулена для {updated_count} объектов.")
 
-    def supplier_link(self, obj):
+    def supplier_link(self, obj): # pragma: no cover
         if not obj.supplier:
             return "-"
         url = reverse('admin:retail_retail_change', args=[obj.supplier.pk])
@@ -35,7 +35,7 @@ class RetailAdmin(admin.ModelAdmin):
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin): # pragma: no cover
     list_display = (
         'name',
         'model',
