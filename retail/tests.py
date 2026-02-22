@@ -50,15 +50,15 @@ class RetailCRUDTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Retail.objects.all().count(), 2)
 
-    # def test_habit_edit(self):
-    #     """Тест изменения привычки"""
-    #     url = reverse(viewname="habits:habit-detail", args=(self.habit.pk,))
-    #     data = {
-    #         "duration": datetime.timedelta(minutes=1),
-    #     }
-    #     response = self.client.patch(url, data, format="json")
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(Habits.objects.get(place="Бассейн").duration, datetime.timedelta(seconds=60))
+    def test_habit_edit(self):
+        """Тест изменения поставщика"""
+        url = reverse(viewname="retail:retail-detail", args=(self.retail.pk,))
+        data = {
+            "name": "Apple",
+        }
+        response = self.client.patch(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Retail.objects.get(pk=self.retail.pk).name, "Apple")
     #
     # def test_changes_another_user(self):
     #     """Тест изменения привычки другим пользователем."""
