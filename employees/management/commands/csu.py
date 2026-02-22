@@ -8,13 +8,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            employee = Employee.objects.create(email='super@user.com')
-            employee.is_staff = True
-            employee.is_active = True
-            employee.is_superuser = True
+            employee = Employee.objects.create(
+                email='super@user.com',
+                is_staff=True,
+                is_active=True,
+                is_superuser=True,
+                hire_date = "2021-01-01")
             employee.set_password('admin')
             employee.save()
-            self.stdout.write(self.style.SUCCESS('Супер-пользователь создан. \n email = super@user.com \n password =  admin '))
+            self.stdout.write('Супер-пользователь создан. \n email = super@user.com \n password =  admin ')
         except Exception as e:
-            self.stdout.write(
-                self.style.DANGER(f'Ошибка создания супер-пользователя: {e}'))
+            self.stdout.write(f'Ошибка создания супер-пользователя: {e}')
