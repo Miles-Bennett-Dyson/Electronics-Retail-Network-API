@@ -67,27 +67,24 @@ class RetailCRUDTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Retail.objects.all().count(), 0)
 
-    # def test_is_pleasure_and_reward(self):
-    #     """Тест одновременного указания вознаграждения и приятной привычки."""
-    #     url = reverse(viewname="habits:habit-list")
-    #     data = {
-    #         "place": "Парк",
-    #         "time": datetime.time(20, 30),
-    #         "action": "Гулять",
-    #         "periodicity": 1,
-    #         "reward": "Печенье",
-    #         "is_pleasure": True,
-    #         "duration": datetime.timedelta(minutes=2),
-    #         "is_public": True,
-    #         "owner": self.user.pk,
-    #     }
-    #     response = self.client.post(url, data, format="json")
-    #     validation_error_text = response.json().get("non_field_errors")[0]
-    #     expected_text = "У приятной привычки не может быть вознаграждения или связанной привычки!"
-    #
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-    #     self.assertEqual(validation_error_text, expected_text)
-    #
+    def test_retail_filter(self):
+        """Тест фильтра поставщика по стране. """
+
+        url = reverse(viewname="retail:retail-list")
+        self.retail = Retail.objects.create(
+            name="Samsung",
+            email="email@email.com",
+            country="Корея",
+            city="Пхеньян",
+            street="Уличная",
+            house_number="1",
+        )
+        response = self.client.get(url, data={'country': 'Корея'}, format="json")
+        result = response.json()[0].get("id")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Retail.objects.all().count(), 2)
+        self.assertEqual(result, 2)
+
     # def test_is_pleasure_and_related_habit(self):
     #     """Тест одновременного указания приятной привычки и связанной привычки."""
     #     url = reverse(viewname="habits:habit-list")
