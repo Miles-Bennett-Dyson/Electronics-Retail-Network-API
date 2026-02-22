@@ -1,0 +1,22 @@
+[run]
+source = .
+omit =
+    *manage.py
+    *venv*
+    *env*
+    *migrations*
+    *tests*
+    *apps.py
+    *wsgi.py
+    *asgi.py
+    *settings.py
+    *admin.py
+
+[report]
+show_missing = True
+ignore_errors = True
+skip_empty = True
+precision = 2
+
+[html]
+directory = coverage_html_report

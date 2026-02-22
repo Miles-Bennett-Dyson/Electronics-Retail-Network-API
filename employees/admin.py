@@ -53,7 +53,6 @@ class EmployeeAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
 
         if obj.password:
-            print(obj.password)
             if not obj.password.startswith('pbkdf2_'):
                 obj.set_password(obj.password)
 

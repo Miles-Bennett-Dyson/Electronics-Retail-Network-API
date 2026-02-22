@@ -84,6 +84,24 @@ class RetailCRUDTestCase(APITestCase):
         self.assertEqual(Retail.objects.all().count(), 2)
         self.assertEqual(result, 2)
 
+    def test_retail_filter_important_country(self):
+        """Тест фильтра поставщика по несуществующей стране. """
+
+        url = reverse(viewname="retail:retail-list")
+        self.retail = Retail.objects.create(
+            name="Samsung",
+            email="email@email.com",
+            country="Корея",
+            city="Пхеньян",
+            street="Уличная",
+            house_number="1",
+        )
+        response = self.client.get(url, data={'country': 'Венера'}, format="json")
+        result = response.json()
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Retail.objects.all().count(), 2)
+        self.assertEqual(result, [])
+
     def test_debt_edit(self):
         """Тест изменения задолженности. """
         url = reverse(viewname="retail:retail-detail", args=(self.retail.pk,))
