@@ -85,104 +85,13 @@ class RetailCRUDTestCase(APITestCase):
         self.assertEqual(Retail.objects.all().count(), 2)
         self.assertEqual(result, 2)
 
-    # def test_is_pleasure_and_related_habit(self):
-    #     """Тест одновременного указания приятной привычки и связанной привычки."""
-    #     url = reverse(viewname="habits:habit-list")
-    #     data = {
-    #         "place": "Парк",
-    #         "time": datetime.time(20, 30),
-    #         "action": "Гулять",
-    #         "periodicity": 1,
-    #         "related_habit": self.habit.pk,
-    #         "is_pleasure": True,
-    #         "duration": datetime.timedelta(minutes=2),
-    #         "is_public": True,
-    #         "owner": self.user.pk,
-    #     }
-    #     response = self.client.post(url, data, format="json")
-    #     validation_error_text = response.json().get("non_field_errors")[0]
-    #     expected_text = "У приятной привычки не может быть вознаграждения или связанной привычки!"
-    #
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-    #     self.assertEqual(validation_error_text, expected_text)
-    #
-    # def test_periodicity(self):
-    #     """Тест создания привычки с периодом больше 7."""
-    #     url = reverse(viewname="habits:habit-list")
-    #     data = {
-    #         "place": "Парк",
-    #         "time": datetime.time(20, 30),
-    #         "action": "Гулять",
-    #         "periodicity": 8,
-    #         "reward": "Печенье",
-    #         "duration": datetime.timedelta(minutes=2),
-    #         "is_public": True,
-    #         "owner": self.user.pk,
-    #     }
-    #     response = self.client.post(url, data, format="json")
-    #     validation_error_text = response.json().get("non_field_errors")[0]
-    #     expected_text = "Нельзя выполнять привычку реже, чем 1 раз в 7 дней!"
-    #
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-    #     self.assertEqual(validation_error_text, expected_text)
-    #
-    # def test_not_related_habit_and_not_reward(self):
-    #     """Тест создания привычки без вознаграждения или связанной привычки."""
-    #     url = reverse(viewname="habits:habit-list")
-    #     data = {
-    #         "place": "Парк",
-    #         "time": datetime.time(20, 30),
-    #         "action": "Гулять",
-    #         "periodicity": 7,
-    #         "duration": datetime.timedelta(minutes=2),
-    #         "is_public": True,
-    #         "owner": self.user.pk,
-    #     }
-    #     response = self.client.post(url, data, format="json")
-    #     validation_error_text = response.json().get("non_field_errors")[0]
-    #     expected_text = "Необходимо указать вознаграждение ИЛИ связанную привычку"
-    #
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-    #     self.assertEqual(validation_error_text, expected_text)
-    #
-    # def test_related_habit_and_reward(self):
-    #     """Тест одновременного указания вознаграждения и связанной привычки."""
-    #     url = reverse(viewname="habits:habit-list")
-    #     data = {
-    #         "place": "Парк",
-    #         "time": datetime.time(20, 30),
-    #         "action": "Гулять",
-    #         "periodicity": 1,
-    #         "reward": "Печенье",
-    #         "related_habit": self.habit.pk,
-    #         "duration": datetime.timedelta(minutes=2),
-    #         "is_public": True,
-    #         "owner": self.user.pk,
-    #     }
-    #     response = self.client.post(url, data, format="json")
-    #     validation_error_text = response.json().get("non_field_errors")[0]
-    #     expected_text = "Можно указать только вознаграждение ИЛИ связанную привычку"
-    #
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-    #     self.assertEqual(validation_error_text, expected_text)
-    #
-    # def test_duration(self):
-    #     """Тест указания времени выполнения привычки."""
-    #     url = reverse(viewname="habits:habit-list")
-    #     data = {
-    #         "place": "Парк",
-    #         "time": datetime.time(20, 30),
-    #         "action": "Гулять",
-    #         "periodicity": 1,
-    #         "reward": "Печенье",
-    #         "related_habit": self.habit.pk,
-    #         "duration": datetime.timedelta(minutes=6),
-    #         "is_public": True,
-    #         "owner": self.user.pk,
-    #     }
-    #     response = self.client.post(url, data, format="json")
-    #     validation_error_text = response.json().get("non_field_errors")[0]
-    #     expected_text = "Время на выполнение не должно быть более 120 секунд!"
-    #
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-    #     self.assertEqual(validation_error_text, expected_text)
+    def test_debt_edit(self):
+        """Тест изменения задолженности. """
+        url = reverse(viewname="retail:retail-detail", args=(self.retail.pk,))
+        data = {
+            "debt": "1000",
+        }
+        response = self.client.patch(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Retail.objects.get(pk=self.retail.pk).debt, 0.00)
+
