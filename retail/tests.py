@@ -91,6 +91,20 @@ class RetailCRUDTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(self.retail.supplier, self.retail_2)
 
+    def test_cyclic_hierarchy(self):
+        """Тест циклической иерархии при указании поставщика. """
+        url = reverse(viewname="retail:retail-detail", args=(self.retail_2.pk,))
+        self.retail.supplier = self.retail_2
+        self.retail.save()
+        data = {
+            "supplier": self.retail.pk,
+        }
+        response = self.client.patch(url, data, format="json")
+        self.retail.refresh_from_db()
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('Циклическая иерархия!', response.data['non_field_errors'])
+        self.assertEqual(self.retail_2.supplier, None)
+
     def test_retail_delete(self):
         """Тест удаления поставщика"""
         url = reverse(viewname="retail:retail-detail", args=(self.retail.pk,))

@@ -27,7 +27,7 @@ class RetailSerializer(serializers.ModelSerializer):
                 current_node = supplier
                 while current_node:
                     if current_node.pk in list_suppliers or current_node.pk == self.instance.pk:
-                        raise ValidationError('Циклическая иерархия')
+                        raise ValidationError('Циклическая иерархия!')
                     list_suppliers.append(current_node.pk)
                     current_node = current_node.supplier
         return super().validate(attrs)
