@@ -1,9 +1,7 @@
 import os
 import sys
-from datetime import timedelta
 from pathlib import Path
 
-from django.urls import reverse_lazy
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -154,7 +152,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-  # CORS settings
+#          CORS settings
 
 CORS_ALLOWED_ORIGINS = [
     os.getenv("CORS_ALLOWED_ORIGINS"),

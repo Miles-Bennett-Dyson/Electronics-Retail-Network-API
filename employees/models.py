@@ -3,8 +3,8 @@ from django.db import models
 
 NULLABLE = {"null": True, "blank": True}
 
-class Employee(AbstractUser):
 
+class Employee(AbstractUser):
     email = models.EmailField(unique=True)
     username = None
     first_name = models.CharField(max_length=20, verbose_name="Имя")

@@ -6,12 +6,14 @@ from retail.models import Retail, Product
 from retail.permissions import IsActiveEmployee
 from retail.serializers import RetailSerializer, ProductSerializer
 
+
 class RetailViewSet(viewsets.ModelViewSet):
     serializer_class = RetailSerializer
     permission_classes = (IsActiveEmployee,)
     queryset = Retail.objects.all()
-    filter_backends = [DjangoFilterBackend,]
+    filter_backends = [DjangoFilterBackend, ]
     filterset_class = CountryFilter
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer

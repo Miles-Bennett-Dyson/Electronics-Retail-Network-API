@@ -1,12 +1,10 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 
 from employees.models import Employee
 
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-
     list_display = (
         'first_name',
         'last_name',
@@ -16,25 +14,25 @@ class EmployeeAdmin(admin.ModelAdmin):
         'department',
         'hire_date'
     )
-    ordering = ['hire_date']
+    ordering = ['hire_date',]
     add_fieldsets = (
         (
             None,
-            {'classes':
-                 ('wide',),
-             'fields':
-                 (
-                     'email',
-                     'password',
-                     'first_name',
-                     'last_name',
-                     'position',
-                     'department',
-                     'phone_number',
-                     'photo',
-                     'hire_date'
-                 )
-             }
+            {
+                'classes':
+                    ('wide',),
+                'fields': (
+                    'email',
+                    'password',
+                    'first_name',
+                    'last_name',
+                    'position',
+                    'department',
+                    'phone_number',
+                    'photo',
+                    'hire_date'
+                )
+            }
         ),
     )
 

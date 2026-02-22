@@ -35,7 +35,7 @@ class RetailAdmin(admin.ModelAdmin):
 
 
 @admin.register(Product)
-class RetailAdmin(admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'model',

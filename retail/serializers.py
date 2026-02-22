@@ -14,7 +14,6 @@ class RetailSerializer(serializers.ModelSerializer):
         else:
             return obj.get_level()
 
-
     def validate(self, attrs):
         """ Метод дополнительно выполняет проверку на циклическую иерархию. Чтобы текущий объект не мог
          указать самого себя поставщиком. """
@@ -40,6 +39,7 @@ class RetailSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'products': {'required': False},
         }
+
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
