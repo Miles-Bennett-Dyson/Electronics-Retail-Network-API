@@ -1,0 +1,20 @@
+[run]
+source = .
+omit =
+    manage.py
+    */*migrations/*
+    */*tests/*
+    */*settings.py
+    */*apps.py
+    */*wsgi.py
+    */*asgi.py
+    */*csu.py
+
+[report]
+show_missing = True
+ignore_errors = True
+skip_empty = True
+precision = 2
+
+[html]
+directory = coverage_html_report

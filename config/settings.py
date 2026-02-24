@@ -3,7 +3,6 @@ import sys
 from datetime import timedelta
 from pathlib import Path
 
-from django.urls import reverse_lazy
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -70,26 +69,25 @@ USE_I18N = True
 
 USE_TZ = True
 
-# SIMPLE_JWT = {
-#     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
-#     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-# }
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
 
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "employees.Employee"
 
-# LOGIN_URL = reverse_lazy("users:request_sms")
 
-# SWAGGER_SETTINGS = {
-#     'SECURITY_DEFINITIONS': {
-#         'Bearer': {
-#             'type': 'apiKey',
-#             'name': 'Authorization',
-#             'in': 'header',
-#             'description': 'Введите в поле: Bearer [ваш_токен]'
-#         }
-#     },
-#     'USE_SESSION_AUTH': False,  # Отключаем стандартную сессионную авторизацию для чистоты
-# }
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Введите в поле: Bearer [ваш_токен]'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+}
 
 #          *- INSTALLED APPS -*
 
@@ -106,10 +104,12 @@ ADDITIONAL_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_yasg",
+    "django_filters",
 ]
 
 LOCAL_APPS = [
-    "users",
+    "retail",
+    "employees"
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + ADDITIONAL_APPS + LOCAL_APPS
@@ -134,8 +134,11 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.AllowAny",
     ],
+    "DEFAULT_FILTER_BACKENDS": (
+        "django_filters.rest_framework.DjangoFilterBackend",
+    )
 }
 
 #          STATIC & MEDIA settings
@@ -149,7 +152,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-  # CORS settings
+#          CORS settings
 
 CORS_ALLOWED_ORIGINS = [
     os.getenv("CORS_ALLOWED_ORIGINS"),
